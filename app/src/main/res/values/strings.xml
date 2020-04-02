@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Fico</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_halo_ini_custom">Halo ini custom</string>
+    <string name="cd_image_country">Image Country</string>
+    <string name="title_live_report">Live Report</string>
+</resources>
