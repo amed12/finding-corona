@@ -1,9 +1,9 @@
 package com.sun3toline.fico.di.module
 
 import com.sun3toline.fico.data.network.CountryDataSource
-import com.sun3toline.fico.presentation.HomePresenter
-import com.sun3toline.fico.presentation.HomeViewContract
 import com.sun3toline.fico.presentation.MainActivity
+import com.sun3toline.fico.presentation.MainViewModel
+import com.sun3toline.fico.presentation.MainViewModelCallback
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -21,12 +21,12 @@ abstract class MainModule {
 
         @JvmStatic
         @Provides
-        fun providesMainPresenter(
-            viewContract: HomeViewContract,
+        fun provideMainViewModel(
+            callback: MainViewModelCallback,
             dataSource: CountryDataSource
-        ): HomePresenter = HomePresenter(viewContract, dataSource)
+        ): MainViewModel = MainViewModel(callback, dataSource)
     }
 
     @Binds
-    abstract fun bindMainView(activity: MainActivity): HomeViewContract
+    abstract fun bindMainViewModelCallback(activity: MainActivity): MainViewModelCallback
 }
