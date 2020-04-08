@@ -1,41 +1,35 @@
 package com.sun3toline.fico.presentation
 
-import android.view.View
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
-import com.sun3toline.fico.BR
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.sun3toline.fico.data.network.CountryDataSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import javax.inject.Inject
 
-class MainViewModel(
-    private val callback: MainViewModelCallback,
+class MainViewModel @Inject constructor(
     private val dataSource: CountryDataSource
-) : BaseObservable(), HomeViewContract {
-
-    var progressBarVisibility: Int = View.GONE
-        @Bindable get
+) : ViewModel(), HomeViewContract {
 
     private val disposables: CompositeDisposable = CompositeDisposable()
+    private val observer = MutableLiveData<MainViewState>()
+    override val states: LiveData<MainViewState>
+        get() = observer
 
     override fun showTotalConfirmed() {
-        progressBarVisibility = View.VISIBLE
-        notifyPropertyChanged(BR.progressBarVisibility)
         dataSource.getSummary()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ response ->
-                progressBarVisibility = View.GONE
-                notifyPropertyChanged(BR.progressBarVisibility)
-                callback.onSuccess(response.countries.sortedByDescending { it.totalDeaths })
-            }, { error ->
-                progressBarVisibility = View.GONE
-                notifyPropertyChanged(BR.progressBarVisibility)
-                callback.onError(error)
-            }).addTo(disposables)
+            .map<MainViewState>(MainViewState::Success)
+            .onErrorReturn(MainViewState::Error)
+            .toFlowable()
+            .startWith(MainViewState.loading)
+            .subscribe(observer::postValue)
+            .let(disposables::add)
     }
 
-    override fun onDetach() {
+    override fun onCleared() {
+        super.onCleared()
         disposables.clear()
     }
 }

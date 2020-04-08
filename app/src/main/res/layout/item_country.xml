@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.sun3toline.fico.presentation.MainAdapterViewModel" />
-    </data>
-
-    <com.google.android.material.card.MaterialCardView
+    xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -36,7 +27,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                android:text="@{viewModel.country}"
                 tools:text="Indonesia" />
 
             <TextView
@@ -46,8 +36,6 @@
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
                 android:gravity="end"
-                android:text="@{viewModel.totalConfirmed}"
                 tools:text="98988" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-</layout>

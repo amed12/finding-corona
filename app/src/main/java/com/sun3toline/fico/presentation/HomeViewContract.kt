@@ -1,6 +1,8 @@
 package com.sun3toline.fico.presentation
 
+import androidx.lifecycle.LiveData
+
 interface HomeViewContract {
     fun showTotalConfirmed()
-    fun onDetach()
+    val states: LiveData<MainViewState>
 }
